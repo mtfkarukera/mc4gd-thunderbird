@@ -62,11 +62,16 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
  * Récupère l'email actuellement affiché et la liste de ses pièces jointes.
  */
 async function handleGetCurrentEmailInfo() {
-  const [mailTab] = await messenger.mailTabs.query({ active: true, currentWindow: true });
-  if (!mailTab) throw new Error('Aucun onglet de messagerie actif trouvé.');
+  let messageList = null;
+  try {
+    const [mailTab] = await messenger.mailTabs.query({ active: true, currentWindow: true });
+    const tabId = mailTab ? (mailTab.tabId || mailTab.id) : undefined;
+    messageList = await messenger.messageDisplay.getDisplayedMessages(tabId);
+  } catch (e) {
+    messageList = await messenger.messageDisplay.getDisplayedMessages();
+  }
 
-  const messageList = await messenger.messageDisplay.getDisplayedMessages(mailTab.tabId);
-  if (!messageList || messageList.messages.length === 0) {
+  if (!messageList || !messageList.messages || messageList.messages.length === 0) {
     throw new Error('Aucun email sélectionné ou affiché.');
   }
 
