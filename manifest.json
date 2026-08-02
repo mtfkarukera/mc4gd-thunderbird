@@ -16,11 +16,8 @@
   },
 
   "background": {
-    "scripts": [
-      "src/shared/utils.js",
-      "src/shared/drive_client.js",
-      "src/background/background.js"
-    ]
+    "scripts": ["src/background/background.js"],
+    "type": "module"
   },
 
   "message_display_action": {
