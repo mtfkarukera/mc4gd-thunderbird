@@ -64,8 +64,9 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 async function handleGetCurrentEmailInfo() {
   let messageList = null;
   try {
-    const [mailTab] = await messenger.mailTabs.query({ active: true, currentWindow: true });
-    const tabId = mailTab ? (mailTab.tabId || mailTab.id) : undefined;
+    // Dans Thunderbird MV3, on utilise tabs.query pour supporter tous les types de fenêtres (3-pane et standalone)
+    const tabs = await messenger.tabs.query({ active: true, currentWindow: true });
+    const tabId = (tabs && tabs.length > 0) ? tabs[0].id : undefined;
     messageList = await messenger.messageDisplay.getDisplayedMessages(tabId);
   } catch (e) {
     messageList = await messenger.messageDisplay.getDisplayedMessages();
