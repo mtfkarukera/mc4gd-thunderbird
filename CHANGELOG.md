@@ -10,6 +10,10 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [1.0.0] - 2026-08-02
 
 ### Ajouts & Modifications
+- Refonte ergonomique de la popup : sélecteur de format à pilules ("Ne pas importer", "PDF", "Markdown") fusionnant la sélection du format et l'activation du corps de l'email.
+- Support natif des thèmes clair et sombre (`@media (prefers-color-scheme)`) s'adaptant automatiquement au système.
+- Pièces jointes décochées par défaut à l'ouverture de la popup.
+- Désactivation conditionnelle du champ de note/intention (uniquement actif si le corps de l'email est sélectionné).
 - Export d'emails Thunderbird vers Google Drive (PDF/Markdown).
 - Upload automatique des pièces jointes.
 - Liens cliquables (fichiers et dossier) dans la popup post-upload (contournement via `browser.tabs.create`).

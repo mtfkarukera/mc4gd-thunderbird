@@ -14,10 +14,26 @@ document.addEventListener('DOMContentLoaded', async () => {
   const attachmentsCountEl = document.getElementById('attachments-count');
   const statusEl = document.getElementById('status-message');
   const userNoteInput = document.getElementById('user-note-input');
-  const clipMailCheckbox = document.getElementById('clip-mail-checkbox');
+  const formatRadios = document.querySelectorAll('input[name="clip-format"]');
 
   let currentEmailInfo = null;
   let isAuthenticated = false;
+
+  // Fonction pour gérer l'activation de la note
+  function updateNoteState() {
+    const selectedFormat = document.querySelector('input[name="clip-format"]:checked')?.value || 'none';
+    if (selectedFormat === 'none') {
+      userNoteInput.disabled = true;
+      userNoteInput.value = ''; // Optionnel : réinitialiser ou laisser le texte ? Laisse grisé.
+    } else {
+      userNoteInput.disabled = false;
+    }
+  }
+
+  formatRadios.forEach(radio => {
+    radio.addEventListener('change', updateNoteState);
+  });
+  updateNoteState();
 
   // 1. Initialisation de l'état Auth et Email
   await updateAuthStatus();
@@ -44,16 +60,17 @@ document.addEventListener('DOMContentLoaded', async () => {
       return;
     }
 
-    const clipMail = clipMailCheckbox.checked;
-    const clipFormat = document.querySelector('input[name="clip-format"]:checked')?.value || 'pdf';
-    const userNote = userNoteInput.value;
+    const clipFormatSelection = document.querySelector('input[name="clip-format"]:checked')?.value || 'none';
+    const clipMail = clipFormatSelection !== 'none';
+    const clipFormat = clipMail ? clipFormatSelection : 'pdf';
+    const userNote = clipMail ? userNoteInput.value : '';
 
     const selectedPartNames = [];
     const attCheckboxes = attachmentsListEl.querySelectorAll('input[type="checkbox"]:checked');
     attCheckboxes.forEach(cb => selectedPartNames.push(cb.value));
 
     if (!clipMail && selectedPartNames.length === 0) {
-      showStatus('Veuillez sélectionner au moins le corps de l\'email ou une pièce jointe.', 'error');
+      showStatus('Veuillez sélectionner au moins un format pour l\'email ou une pièce jointe.', 'error');
       return;
     }
 
@@ -140,7 +157,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const cb = document.createElement('input');
       cb.type = 'checkbox';
       cb.value = att.partName;
-      cb.checked = true;
+      cb.checked = false;
 
       const nameSpan = document.createElement('span');
       nameSpan.textContent = `${att.name} (${McUtils.formatBytes(att.size)})`;

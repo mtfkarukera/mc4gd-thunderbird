@@ -29,24 +29,19 @@
 
     <!-- Options Section -->
     <section class="card options-card">
-      <!-- Target Options -->
+      <!-- Format Selection / Email Body -->
       <div class="option-group">
-        <label class="checkbox-label">
-          <input type="checkbox" id="clip-mail-checkbox" checked>
-          <span>Clipper le corps de l'email</span>
-        </label>
-      </div>
+        <label class="group-title">Format du corps de l'email</label>
+        <div class="segmented-control" id="format-selection-group">
+          <input type="radio" id="format-none" name="clip-format" value="none" checked>
+          <label for="format-none">Ne pas importer</label>
 
-      <!-- Format Selection -->
-      <div class="option-group radio-group" id="format-selection-group">
-        <label class="radio-label">
-          <input type="radio" name="clip-format" value="pdf" checked>
-          <span>PDF</span>
-        </label>
-        <label class="radio-label">
-          <input type="radio" name="clip-format" value="markdown">
-          <span>Markdown</span>
-        </label>
+          <input type="radio" id="format-pdf" name="clip-format" value="pdf">
+          <label for="format-pdf">PDF</label>
+
+          <input type="radio" id="format-md" name="clip-format" value="markdown">
+          <label for="format-md">Markdown</label>
+        </div>
       </div>
 
       <!-- Attachments Selection -->

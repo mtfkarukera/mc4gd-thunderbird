@@ -1,16 +1,32 @@
 /* src/popup/popup.css — Design System Moderne (Glassmorphism & Native UI) */
 
 :root {
-  --bg-color: #0f172a;
-  --card-bg: rgba(30, 41, 59, 0.7);
-  --border-color: rgba(255, 255, 255, 0.1);
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
+  --bg-color: #f8fafc;
+  --card-bg: #ffffff;
+  --border-color: #e2e8f0;
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --input-bg: #f1f5f9;
+  --item-bg: #f1f5f9;
   --primary-color: #3b82f6;
   --primary-hover: #2563eb;
   --success-color: #10b981;
   --danger-color: #ef4444;
   --radius: 12px;
+  --segment-bg: #e2e8f0;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: #0f172a;
+    --card-bg: rgba(30, 41, 59, 0.7);
+    --border-color: rgba(255, 255, 255, 0.1);
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --input-bg: rgba(15, 23, 42, 0.6);
+    --item-bg: rgba(255, 255, 255, 0.05);
+    --segment-bg: rgba(15, 23, 42, 0.6);
+  }
 }
 
 * {
@@ -122,14 +138,43 @@ body {
   cursor: pointer;
 }
 
-.radio-group {
-  flex-direction: row;
-  gap: 16px;
+/* Segmented Control (Pilules MC4NBLM Style) */
+.segmented-control {
+  display: flex;
+  background: var(--segment-bg);
+  padding: 3px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  gap: 2px;
+}
+
+.segmented-control input[type="radio"] {
+  display: none;
+}
+
+.segmented-control label {
+  flex: 1;
+  text-align: center;
+  padding: 6px 4px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.segmented-control input[type="radio"]:checked + label {
+  background: var(--primary-color);
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
 }
 
 textarea {
   width: 100%;
-  background: rgba(15, 23, 42, 0.6);
+  background: var(--input-bg);
   border: 1px solid var(--border-color);
   border-radius: 6px;
   color: var(--text-primary);
@@ -137,11 +182,17 @@ textarea {
   font-family: inherit;
   font-size: 12px;
   resize: none;
+  transition: opacity 0.2s ease, border-color 0.2s ease;
 }
 
 textarea:focus {
   outline: none;
   border-color: var(--primary-color);
+}
+
+textarea:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 /* Attachments */
@@ -158,7 +209,7 @@ textarea:focus {
   align-items: center;
   justify-content: space-between;
   padding: 4px 8px;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--item-bg);
   border-radius: 4px;
   font-size: 11px;
 }
