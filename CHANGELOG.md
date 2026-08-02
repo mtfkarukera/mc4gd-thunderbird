@@ -7,6 +7,11 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
+## [1.0.1] - 2026-08-02
+
+### Corrections
+- Correction de l'apparition d'une double scrollbar (horizontale) due à la largeur fixe de la popup lorsque la scrollbar verticale système s'affichait.
+
 ## [1.0.0] - 2026-08-02
 
 ### Ajouts & Modifications
