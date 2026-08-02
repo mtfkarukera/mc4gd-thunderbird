@@ -108,7 +108,7 @@ async function handleStartClipProcess(payload) {
   const { clipMail, clipFormat, selectedPartNames, userNote, customFolderName } = payload;
 
   const token = await DriveClient.getValidToken();
-  const folderId = await DriveClient.getTargetFolderId(token, customFolderName || 'Magic Clipper Imports');
+  const folderId = await DriveClient.getTargetFolderId(token, customFolderName || 'Imports Magic Clipper');
 
   const emailInfo = await handleGetCurrentEmailInfo();
   const uploadedFiles = [];

@@ -224,6 +224,60 @@ textarea:focus {
   color: #f87171;
 }
 
+.drive-result-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.btn-drive-folder {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 8px;
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-drive-folder:hover {
+  background: rgba(59, 130, 246, 0.25);
+  border-color: #60a5fa;
+  color: #93c5fd;
+}
+
+.drive-file-links {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 100px;
+  overflow-y: auto;
+}
+
+.drive-file-link {
+  display: block;
+  padding: 4px 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #cbd5e1;
+  text-decoration: none;
+  font-size: 11px;
+  border-radius: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: background 0.15s ease;
+}
+
+.drive-file-link:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
 .hidden {
   display: none !important;
 }

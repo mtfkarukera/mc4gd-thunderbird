@@ -7,10 +7,17 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
-## [Unreleased]
+## [1.0.0] - 2026-08-02
+
+### Ajouts & Modifications
+- Export d'emails Thunderbird vers Google Drive (PDF/Markdown).
+- Upload automatique des pièces jointes.
+- Liens cliquables (fichiers et dossier) dans la popup post-upload (contournement via `browser.tabs.create`).
+- Cache intelligent pour l'invalidation automatique du dossier cible `Imports Magic Clipper` sur Google Drive.
+- Mode hors ligne simulé (pas de serveur intermédiaire), connexion directe via API Drive v3.
 
 ### Initialisation
 - Initialisation du projet `mc4gd-tb` en WebExtension Manifest V3 pour Thunderbird 128+ ESR.
-- Mise en place des 5 fichiers de gouvernance (`README.md`, `ARCHITECTURE.md`, `CHANGELOG.md`, `AGENTS.md`, `.gitignore`).
+- Mise en place de la documentation et de la configuration de base (`README.md`, `ARCHITECTURE.md`, `CHANGELOG.md`, `.gitignore`).
 - Configuration du script de packaging `./build.sh` ciblant l'archive `.xpi` natif dans `dist/`.
 - Déclaration des permissions de sécurité ATN dont `sensitiveDataUpload`.

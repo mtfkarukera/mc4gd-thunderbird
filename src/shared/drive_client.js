@@ -82,7 +82,7 @@ const DriveClient = {
         // Ignorer les erreurs réseau lors de la révocation
       }
     }
-    await browser.storage.local.remove(['accessToken', 'expiresAt', 'folderId']);
+    await browser.storage.local.remove(['accessToken', 'expiresAt', 'folderId', 'folderName']);
   },
 
   /**
@@ -132,16 +132,18 @@ const DriveClient = {
   /**
    * Obtient l'identifiant du dossier cible (utilise le cache local ou effectue la recherche/création).
    */
-  async getTargetFolderId(token, folderName = 'Magic Clipper Imports') {
-    const { folderId: cached } = await browser.storage.local.get('folderId');
-    if (cached) return cached;
+  async getTargetFolderId(token, folderName = 'Imports Magic Clipper') {
+    const cached = await browser.storage.local.get(['folderId', 'folderName']);
+    if (cached.folderId && cached.folderName === folderName) {
+      return cached.folderId;
+    }
 
     let folderId = await this.findFolder(token, folderName);
     if (!folderId) {
       folderId = await this.createFolder(token, folderName);
     }
 
-    await browser.storage.local.set({ folderId });
+    await browser.storage.local.set({ folderId, folderName });
     return folderId;
   },
 
@@ -149,7 +151,7 @@ const DriveClient = {
    * Invalide le cache local du dossier cible en cas d'erreur 404.
    */
   async invalidateFolderCache() {
-    await browser.storage.local.remove('folderId');
+    await browser.storage.local.remove(['folderId', 'folderName']);
   },
 
   /**

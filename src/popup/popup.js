@@ -34,6 +34,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     await updateAuthStatus();
   });
 
+  const driveResultActions = document.getElementById('drive-result-actions');
+  const openFolderBtn = document.getElementById('open-folder-btn');
+  const driveFileLinks = document.getElementById('drive-file-links');
+
   clipBtn.addEventListener('click', async () => {
     if (!isAuthenticated) {
       showStatus('Veuillez vous connecter à Google Drive d\'abord.', 'error');
@@ -54,6 +58,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     setLoadingState(true);
+    hideDriveActions();
     showStatus('Clipping vers Google Drive en cours...', 'info');
 
     try {
@@ -69,6 +74,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       if (response && response.success) {
         showStatus(`Succès ! ${response.uploadedFiles.length} fichier(s) envoyés sur Drive.`, 'success');
+        displayDriveActions(response.folderId, response.uploadedFiles);
       } else {
         showStatus(`Erreur : ${response.error || 'Échec de l\'upload'}`, 'error');
       }
@@ -150,6 +156,56 @@ document.addEventListener('DOMContentLoaded', async () => {
     statusEl.textContent = message;
     statusEl.className = `status-message ${type}`;
     statusEl.classList.remove('hidden');
+    if (type !== 'success') {
+      hideDriveActions();
+    }
+  }
+
+  if (openFolderBtn) {
+    openFolderBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const url = openFolderBtn.dataset.url || openFolderBtn.href;
+      if (url && url !== '#') {
+        browser.tabs.create({ url });
+      }
+    });
+  }
+
+  function displayDriveActions(folderId, uploadedFiles) {
+    if (!driveResultActions) return;
+
+    if (folderId && openFolderBtn) {
+      const folderUrl = `https://drive.google.com/drive/folders/${folderId}`;
+      openFolderBtn.href = folderUrl;
+      openFolderBtn.dataset.url = folderUrl;
+    }
+
+    if (driveFileLinks) {
+      driveFileLinks.innerHTML = '';
+      if (uploadedFiles && uploadedFiles.length > 0) {
+        uploadedFiles.forEach(file => {
+          if (!file.webViewLink) return;
+          const a = document.createElement('a');
+          a.href = file.webViewLink;
+          a.className = 'drive-file-link';
+          const icon = file.type === 'mail' ? '📄' : '📎';
+          a.textContent = `${icon} ${file.name} ↗`;
+          a.addEventListener('click', (e) => {
+            e.preventDefault();
+            browser.tabs.create({ url: file.webViewLink });
+          });
+          driveFileLinks.appendChild(a);
+        });
+      }
+    }
+
+    driveResultActions.classList.remove('hidden');
+  }
+
+  function hideDriveActions() {
+    if (driveResultActions) {
+      driveResultActions.classList.add('hidden');
+    }
   }
 
   function setLoadingState(loading) {
