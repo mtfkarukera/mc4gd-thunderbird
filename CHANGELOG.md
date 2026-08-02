@@ -7,6 +7,11 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
+## [1.0.2] - 2026-08-02
+
+### Corrections
+- Déclaration de la clé racine `icons` dans `manifest.json` afin de pouvoir afficher correctement l'icône officielle de l'application dans le gestionnaire de modules de Thunderbird (`about:addons`).
+
 ## [1.0.1] - 2026-08-02
 
 ### Corrections
