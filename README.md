@@ -6,11 +6,13 @@
 
 ## 🚀 Fonctionnalités Principales
 
+- 🎨 **Interface Moderne & Adaptative** : Popup ergonomique avec sélecteur à pilules ("Ne pas importer", "PDF", "Markdown") et support natif des thèmes clair et sombre (`@media prefers-color-scheme`).
 - 📄 **Export Email → PDF** : Rendu clair et mise en page optimisée pour la lecture et le stockage d'archivage.
 - 📝 **Export Email → Markdown** : Conversion HTML vers Markdown enrichi (support des tableaux GFM).
 - 📎 **Upload direct des Pièces Jointes** : Sélection et transfert streaming sans surcharge mémoire de vos pièces jointes (PDF, ZIP, images, documents).
-- 🎯 **Organisation par Dossier Google Drive** : Sélection ou création automatique de votre dossier cible sur Google Drive (avec détection anti-doublon).
+- 🎯 **Organisation par Dossier Google Drive** : Sélection ou création automatique du dossier cible `Imports Magic Clipper` sur Google Drive (avec détection anti-doublon et cache intelligent).
 - 💬 **Grounding & Notes Personnalisées** : Possibilité d'ajouter une note ou une intention d'archivage directement en en-tête des documents capturés.
+- 🔗 **Accès Rapide** : Liens directs post-upload dans la popup pour ouvrir le document ou le dossier sur Google Drive.
 
 ---
 
