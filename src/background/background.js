@@ -1,8 +1,7 @@
 // src/background/background.js — Event Page MV3 central (mc4gd-tb)
 // S'appuie sur la skill thunderbird-mv3-expert (v1.0.0)
 
-import McUtils from '../shared/utils.js';
-import DriveClient from '../shared/drive_client.js';
+// (Dépendances globales chargées via manifest.json : McUtils, DriveClient)
 
 'use strict';
 
