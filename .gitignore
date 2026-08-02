@@ -6,6 +6,9 @@ node_modules/
 # Gouvernance Privée & Clés (Sécurité Anti-Leak)
 AGENTS.md
 .agents/
+tasks.md
+task.md
+PLAN_ACTION.md
 *.pem
 *.key
 .env
