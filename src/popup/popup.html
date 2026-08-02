@@ -11,7 +11,7 @@
     <!-- Header -->
     <header class="app-header">
       <div class="brand">
-        <img src="../../icons/icon-48.png" alt="Logo" class="logo">
+        <img src="../../icons/icon-48.png" alt="" aria-hidden="true" class="logo">
         <h1 data-i18n="extensionName">Magic Clipper Drive</h1>
       </div>
       <button id="auth-btn" class="btn-secondary btn-sm">Google Drive</button>
@@ -30,27 +30,27 @@
     <!-- Options Section -->
     <section class="card options-card">
       <!-- Format Selection / Email Body -->
-      <div class="option-group">
-        <label class="group-title">Format du corps de l'email</label>
+      <fieldset class="option-group fieldset-reset">
+        <legend class="group-title">Format du corps de l'email</legend>
         <div class="segmented-control" id="format-selection-group">
-          <input type="radio" id="format-none" name="clip-format" value="none" checked>
+          <input type="radio" id="format-none" class="radio-input" name="clip-format" value="none" checked>
           <label for="format-none">Ne pas importer</label>
 
-          <input type="radio" id="format-pdf" name="clip-format" value="pdf">
+          <input type="radio" id="format-pdf" class="radio-input" name="clip-format" value="pdf">
           <label for="format-pdf">PDF</label>
 
-          <input type="radio" id="format-md" name="clip-format" value="markdown">
+          <input type="radio" id="format-md" class="radio-input" name="clip-format" value="markdown">
           <label for="format-md">Markdown</label>
         </div>
-      </div>
+      </fieldset>
 
       <!-- Attachments Selection -->
-      <div class="option-group" id="attachments-group">
-        <label class="group-title">Pièces Jointes détectées (<span id="attachments-count">0</span>)</label>
+      <fieldset class="option-group fieldset-reset" id="attachments-group">
+        <legend class="group-title">Pièces Jointes détectées (<span id="attachments-count">0</span>)</legend>
         <div id="attachments-list" class="attachments-list">
           <p class="empty-hint">Aucune pièce jointe dans cet email.</p>
         </div>
-      </div>
+      </fieldset>
 
       <!-- User Note / Grounding -->
       <div class="option-group">
@@ -61,7 +61,7 @@
 
     <!-- Action Section -->
     <footer class="app-footer">
-      <div id="status-message" class="status-message hidden"></div>
+      <div id="status-message" class="status-message hidden" aria-live="polite"></div>
       <div id="drive-result-actions" class="drive-result-actions hidden">
         <a id="open-folder-btn" href="#" target="_blank" class="btn-secondary btn-drive-folder">
           📂 Ouvrir le dossier sur Drive ↗

@@ -129,8 +129,10 @@ const DriveClient = {
     return data.id;
   },
 
+  _folderPromise: null,
+
   /**
-   * Obtient l'identifiant du dossier cible (utilise le cache local ou effectue la recherche/création).
+   * Obtient l'identifiant du dossier cible (utilise le cache local avec Mutex anti-doublons concurrents).
    */
   async getTargetFolderId(token, folderName = 'Imports Magic Clipper') {
     const cached = await browser.storage.local.get(['folderId', 'folderName']);
@@ -138,13 +140,25 @@ const DriveClient = {
       return cached.folderId;
     }
 
-    let folderId = await this.findFolder(token, folderName);
-    if (!folderId) {
-      folderId = await this.createFolder(token, folderName);
+    // Utilisation d'un Mutex asynchrone pour éviter les créations concurrentes de dossiers homonymes
+    if (this._folderPromise) {
+      return await this._folderPromise;
     }
 
-    await browser.storage.local.set({ folderId, folderName });
-    return folderId;
+    this._folderPromise = (async () => {
+      try {
+        let folderId = await this.findFolder(token, folderName);
+        if (!folderId) {
+          folderId = await this.createFolder(token, folderName);
+        }
+        await browser.storage.local.set({ folderId, folderName });
+        return folderId;
+      } finally {
+        this._folderPromise = null;
+      }
+    })();
+
+    return await this._folderPromise;
   },
 
   /**
@@ -219,8 +233,9 @@ const DriveClient = {
             return await response.json(); // { id, name, webViewLink }
 
           } else if (response.status === 401) {
-            const newToken = await this.getValidToken();
-            throw Object.assign(new Error('TOKEN_REFRESHED'), { isRetryable: true });
+            // En cas de 401 sur la session résumable, la session est expirée : rafraîchir le token et notifier l'expiration
+            await this.getAccessToken(true);
+            throw new Error('DRIVE_SESSION_EXPIRED');
 
           } else if ([429, 500, 502, 503, 504].includes(response.status)) {
             throw Object.assign(new Error(`DRIVE_HTTP_${response.status}`), { isRetryable: true });

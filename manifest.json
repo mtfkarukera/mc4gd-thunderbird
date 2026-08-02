@@ -25,6 +25,7 @@
 
   "background": {
     "scripts": [
+      "lib/jspdf.umd.min.js",
       "src/shared/utils.js",
       "src/shared/drive_client.js",
       "src/background/background.js"

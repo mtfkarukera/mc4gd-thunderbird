@@ -5,13 +5,13 @@
   --card-bg: #ffffff;
   --border-color: #e2e8f0;
   --text-primary: #0f172a;
-  --text-secondary: #64748b;
+  --text-secondary: #475569;
   --input-bg: #f1f5f9;
   --item-bg: #f1f5f9;
-  --primary-color: #3b82f6;
-  --primary-hover: #2563eb;
-  --success-color: #10b981;
-  --danger-color: #ef4444;
+  --primary-color: #2563eb;
+  --primary-hover: #1d4ed8;
+  --success-color: #059669;
+  --danger-color: #dc2626;
   --radius: 12px;
   --segment-bg: #e2e8f0;
 }
@@ -19,13 +19,15 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --bg-color: #0f172a;
-    --card-bg: rgba(30, 41, 59, 0.7);
+    --card-bg: rgba(30, 41, 59, 0.75);
     --border-color: rgba(255, 255, 255, 0.1);
     --text-primary: #f8fafc;
     --text-secondary: #94a3b8;
     --input-bg: rgba(15, 23, 42, 0.6);
     --item-bg: rgba(255, 255, 255, 0.05);
     --segment-bg: rgba(15, 23, 42, 0.6);
+    --primary-color: #3b82f6;
+    --primary-hover: #2563eb;
   }
 }
 
@@ -45,11 +47,44 @@ html, body {
   line-height: 1.4;
 }
 
+/* Animations d'entrée */
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .app-container {
   padding: 12px;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  animation: fadeSlideUp 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Screen Reader Utility pour l'accessibilité */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.fieldset-reset {
+  border: none;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
 }
 
 /* Header */
@@ -78,13 +113,15 @@ html, body {
   color: var(--text-primary);
 }
 
-/* Cards */
+/* Cards & Glassmorphism */
 .card {
   background: var(--card-bg);
   backdrop-filter: blur(12px);
   border: 1px solid var(--border-color);
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: var(--radius);
   padding: 10px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
 }
 
 .badge {
@@ -93,8 +130,8 @@ html, body {
   font-size: 9px;
   font-weight: 600;
   text-transform: uppercase;
-  background: rgba(59, 130, 246, 0.2);
-  color: #60a5fa;
+  background: rgba(37, 99, 235, 0.15);
+  color: var(--primary-color);
   border-radius: 4px;
   margin-bottom: 4px;
 }
@@ -143,7 +180,7 @@ html, body {
   cursor: pointer;
 }
 
-/* Segmented Control (Pilules MC4NBLM Style) */
+/* Segmented Control (Accessibilité & Visuel) */
 .segmented-control {
   display: flex;
   background: var(--segment-bg);
@@ -151,10 +188,21 @@ html, body {
   border-radius: 8px;
   border: 1px solid var(--border-color);
   gap: 2px;
+  position: relative;
 }
 
 .segmented-control input[type="radio"] {
-  display: none;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .segmented-control label {
@@ -177,6 +225,11 @@ html, body {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
 }
 
+.segmented-control input[type="radio"]:focus-visible + label {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
 textarea {
   width: 100%;
   height: 44px;
@@ -188,12 +241,13 @@ textarea {
   font-family: inherit;
   font-size: 12px;
   resize: none;
-  transition: opacity 0.2s ease, border-color 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-textarea:focus {
+textarea:focus-visible, textarea:focus {
   outline: none;
   border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
 }
 
 textarea:disabled {
@@ -243,11 +297,16 @@ textarea:disabled {
   border-radius: var(--radius);
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
 }
 
 .btn-primary:hover {
   background: var(--primary-hover);
+}
+
+.btn-primary:active {
+  transform: scale(0.97);
 }
 
 .btn-secondary {
@@ -258,10 +317,16 @@ textarea:disabled {
   border-radius: 6px;
   font-size: 11px;
   cursor: pointer;
+  transition: all 0.15s ease;
 }
 
 .btn-secondary:hover {
   background: rgba(255, 255, 255, 0.1);
+}
+
+.btn-secondary:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
 }
 
 .status-message {
@@ -269,16 +334,19 @@ textarea:disabled {
   border-radius: 6px;
   font-size: 11px;
   text-align: center;
+  font-weight: 500;
 }
 
 .status-message.success {
-  background: rgba(16, 185, 129, 0.2);
-  color: #34d399;
+  background: rgba(5, 150, 105, 0.15);
+  color: var(--success-color);
+  border: 1px solid rgba(5, 150, 105, 0.3);
 }
 
 .status-message.error {
-  background: rgba(239, 68, 68, 0.2);
-  color: #f87171;
+  background: rgba(220, 38, 38, 0.15);
+  color: var(--danger-color);
+  border: 1px solid rgba(220, 38, 38, 0.3);
 }
 
 .drive-result-actions {
@@ -295,17 +363,16 @@ textarea:disabled {
   text-decoration: none;
   font-weight: 500;
   padding: 8px;
-  background: rgba(59, 130, 246, 0.15);
-  color: #60a5fa;
-  border: 1px solid rgba(59, 130, 246, 0.4);
+  background: rgba(37, 99, 235, 0.15);
+  color: var(--primary-color);
+  border: 1px solid rgba(37, 99, 235, 0.3);
   border-radius: 6px;
   transition: all 0.2s ease;
 }
 
 .btn-drive-folder:hover {
-  background: rgba(59, 130, 246, 0.25);
-  border-color: #60a5fa;
-  color: #93c5fd;
+  background: rgba(37, 99, 235, 0.25);
+  border-color: var(--primary-color);
 }
 
 .drive-file-links {
@@ -320,7 +387,7 @@ textarea:disabled {
   display: block;
   padding: 4px 8px;
   background: rgba(255, 255, 255, 0.05);
-  color: #cbd5e1;
+  color: var(--text-primary);
   text-decoration: none;
   font-size: 11px;
   border-radius: 4px;
@@ -331,8 +398,7 @@ textarea:disabled {
 }
 
 .drive-file-link:hover {
-  background: rgba(255, 255, 255, 0.12);
-  color: #ffffff;
+  background: rgba(37, 99, 235, 0.15);
 }
 
 .hidden {

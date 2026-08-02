@@ -7,10 +7,15 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
-## [1.0.2] - 2026-08-02
+## [1.0.2] - 2026-08-03
 
-### Corrections
-- Déclaration de la clé racine `icons` dans `manifest.json` afin de pouvoir afficher correctement l'icône officielle de l'application dans le gestionnaire de modules de Thunderbird (`about:addons`).
+### Corrections & Améliorations Post-Audit
+- **Génération PDF Native Binaire** : Intégration de la bibliothèque client `jsPDF` dans l'Event Page pour générer de vrais fichiers PDF binaires valides (`%PDF-`) au lieu de simples conteneurs texte brut.
+- **Robustesse Drive API & Mutex** : Implémentation d'un verrou asynchrone (Mutex) sur la recherche/création du dossier `Imports Magic Clipper` pour empêcher la génération de dossiers en doublons lors des uploads simultanés.
+- **Gestion des Erreurs OAuth** : Rafraîchissement sécurisé des jetons et gestion propre de l'expiration des sessions résumables d'upload sur erreur 401.
+- **Accessibilité WCAG 2.1 AA** : Masquage visuel accessible des radio boutons (`.sr-only`), ajout du focus-visible au clavier (`TAB`), structure HTML sémantique (`fieldset`, `legend`) et région dynamique `aria-live` pour l'annonce vocale des statuts.
+- **Polishing UI / UX** : Animation de montage fluide (`fadeSlideUp`), ombres composées de glassmorphism et retour tactile sur le bouton principal.
+- **Affichage des Icônes** : Déclaration de la clé racine `icons` dans `manifest.json` afin de pouvoir afficher correctement l'icône officielle de l'application dans `about:addons`.
 
 ## [1.0.1] - 2026-08-02
 

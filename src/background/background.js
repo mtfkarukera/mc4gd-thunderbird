@@ -155,11 +155,10 @@ async function handleStartClipProcess(payload) {
       blob = new Blob([mdContent], { type: 'text/markdown;charset=utf-8' });
 
     } else {
-      // PDF par défaut : Génération texte/PDF propre
+      // Génération PDF binaire valide via la bibliothèque jsPDF
       fileName = `${safeTitle}_${formattedDate}.pdf`;
       mimeType = 'application/pdf';
-      const pdfTextContent = buildPdfTextContent(emailInfo, bodyContent, userNote);
-      blob = new Blob([pdfTextContent], { type: 'text/plain;charset=utf-8' });
+      blob = generatePdfBlob(emailInfo, bodyContent, userNote);
     }
 
     const sessionUrl = await DriveClient.initResumableUpload(token, {
@@ -188,15 +187,19 @@ async function handleStartClipProcess(payload) {
 // HELPERS DE CONTENU EMAIL
 // ─────────────────────────────────────────────
 
+/**
+ * Extrait le corps du message en gérant les types MIME complexes (ex: text/html; charset=utf-8).
+ */
 function extractEmailBody(parts) {
   if (!parts || !Array.isArray(parts)) return '';
 
   for (const part of parts) {
-    if (part.contentType === 'text/html' && part.body) {
-      // Nettoyer les balises HTML de base pour le texte brut
+    const contentType = (part.contentType || '').toLowerCase();
+    if (contentType.startsWith('text/html') && part.body) {
+      // Nettoyer les balises HTML de base pour le rendu texte brut
       return part.body.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
     }
-    if (part.contentType === 'text/plain' && part.body) {
+    if (contentType.startsWith('text/plain') && part.body) {
       return part.body;
     }
     if (part.parts) {
@@ -207,6 +210,9 @@ function extractEmailBody(parts) {
   return '';
 }
 
+/**
+ * Génère un document Markdown à partir des métadonnées et du corps de l'email.
+ */
 function buildMarkdownContent(info, body, userNote) {
   let md = `# ${info.subject}\n\n`;
   md += `**De :** ${info.author}\n`;
@@ -221,15 +227,63 @@ function buildMarkdownContent(info, body, userNote) {
   return md;
 }
 
-function buildPdfTextContent(info, body, userNote) {
-  let txt = `==================================================\n`;
-  txt += `SUJET: ${info.subject}\n`;
-  txt += `DE: ${info.author}\n`;
-  txt += `DATE: ${new Date(info.date).toLocaleString('fr-FR')}\n`;
-  if (userNote && userNote.trim()) {
-    txt += `NOTE: ${userNote.trim()}\n`;
+/**
+ * Génère un vrai fichier PDF binaire valide via jsPDF.
+ */
+function generatePdfBlob(info, body, userNote) {
+  const jsPDF = (globalThis.jspdf && globalThis.jspdf.jsPDF) || (window.jspdf && window.jspdf.jsPDF);
+  if (!jsPDF) {
+    throw new Error('La bibliothèque jsPDF n\'est pas disponible dans le contexte du background script.');
   }
-  txt += `==================================================\n\n`;
-  txt += body;
-  return txt;
+
+  const doc = new jsPDF();
+  const margin = 15;
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const maxLineWidth = pageWidth - (margin * 2);
+  let y = 20;
+
+  // Titre / Sujet
+  doc.setFont('Helvetica', 'bold');
+  doc.setFontSize(14);
+  const subjectLines = doc.splitTextToSize(`Sujet : ${info.subject}`, maxLineWidth);
+  doc.text(subjectLines, margin, y);
+  y += (subjectLines.length * 6) + 4;
+
+  // Métadonnées
+  doc.setFont('Helvetica', 'normal');
+  doc.setFontSize(10);
+  doc.text(`De : ${info.author}`, margin, y);
+  y += 5;
+  doc.text(`Date : ${new Date(info.date).toLocaleString('fr-FR')}`, margin, y);
+  y += 7;
+
+  // Note d'intention
+  if (userNote && userNote.trim()) {
+    doc.setFont('Helvetica', 'italic');
+    const noteLines = doc.splitTextToSize(`Note : ${userNote.trim()}`, maxLineWidth);
+    doc.text(noteLines, margin, y);
+    y += (noteLines.length * 5) + 6;
+  }
+
+  // Ligne de séparation
+  doc.setLineWidth(0.5);
+  doc.line(margin, y, pageWidth - margin, y);
+  y += 8;
+
+  // Corps de l'email avec gestion des saut de pages
+  doc.setFont('Helvetica', 'normal');
+  doc.setFontSize(10);
+  const bodyLines = doc.splitTextToSize(body || '', maxLineWidth);
+
+  const pageHeight = doc.internal.pageSize.getHeight();
+  for (let i = 0; i < bodyLines.length; i++) {
+    if (y > pageHeight - margin) {
+      doc.addPage();
+      y = margin;
+    }
+    doc.text(bodyLines[i], margin, y);
+    y += 5;
+  }
+
+  return doc.output('blob');
 }
