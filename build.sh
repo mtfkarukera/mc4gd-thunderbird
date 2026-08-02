@@ -27,6 +27,6 @@ VERSION=$(grep '"version"' manifest.json | cut -d '"' -f 4)
 XPI_NAME="mc4gd-tb-${VERSION}.xpi"
 
 echo "📦 Compilation du package .xpi : ${XPI_NAME}..."
-npx -y web-ext build --artifacts-dir dist --filename "${XPI_NAME}" --overwrite-dest
+npx -y web-ext build --artifacts-dir dist --filename "${XPI_NAME}" --overwrite-dest --ignore-files build.sh "*.sh"
 
 echo -e "${GREEN}✅ Build réussi ! Package disponible dans : dist/${XPI_NAME}${NC}"
