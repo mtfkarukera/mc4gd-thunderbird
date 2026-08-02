@@ -1,0 +1,55 @@
+{
+  "manifest_version": 3,
+  "name": "__MSG_extensionName__",
+  "description": "__MSG_extensionDescription__",
+  "version": "1.0.0",
+  "default_locale": "en",
+
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "mc4gd-tb@mtfkarukera.dev",
+      "strict_min_version": "128.0",
+      "data_collection_permissions": {
+        "required": ["personalCommunications"]
+      }
+    }
+  },
+
+  "background": {
+    "scripts": ["src/background/background.js"],
+    "type": "module"
+  },
+
+  "action": {
+    "default_popup": "src/popup/popup.html",
+    "default_icon": {
+      "48": "icons/icon-48.png",
+      "96": "icons/icon-96.png",
+      "128": "icons/icon-128.png"
+    },
+    "default_title": "__MSG_actionTitle__"
+  },
+
+  "permissions": [
+    "messagesRead",
+    "accountsRead",
+    "storage",
+    "cookies",
+    "downloads",
+    "notifications",
+    "scripting",
+    "sensitiveDataUpload"
+  ],
+
+  "host_permissions": [
+    "*://*.google.com/*",
+    "*://*.googleapis.com/*"
+  ],
+
+  "web_accessible_resources": [
+    {
+      "resources": ["lib/*", "icons/*"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

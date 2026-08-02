@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Magic Clipper for Google Drive</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="brand">
+        <img src="../../icons/icon-48.png" alt="Logo" class="logo">
+        <h1 data-i18n="extensionName">Magic Clipper Drive</h1>
+      </div>
+      <button id="auth-btn" class="btn-secondary btn-sm">Google Drive</button>
+    </header>
+
+    <!-- Email Card -->
+    <section class="card email-card">
+      <div class="card-header">
+        <span class="badge">Email Affiché</span>
+      </div>
+      <h2 id="email-subject" class="email-subject">Chargement...</h2>
+      <p id="email-author" class="email-meta">De : --</p>
+      <p id="email-date" class="email-meta">Date : --</p>
+    </section>
+
+    <!-- Options Section -->
+    <section class="card options-card">
+      <!-- Target Options -->
+      <div class="option-group">
+        <label class="checkbox-label">
+          <input type="checkbox" id="clip-mail-checkbox" checked>
+          <span>Clipper le corps de l'email</span>
+        </label>
+      </div>
+
+      <!-- Format Selection -->
+      <div class="option-group radio-group" id="format-selection-group">
+        <label class="radio-label">
+          <input type="radio" name="clip-format" value="pdf" checked>
+          <span>PDF</span>
+        </label>
+        <label class="radio-label">
+          <input type="radio" name="clip-format" value="markdown">
+          <span>Markdown</span>
+        </label>
+      </div>
+
+      <!-- Attachments Selection -->
+      <div class="option-group" id="attachments-group">
+        <label class="group-title">Pièces Jointes détectées (<span id="attachments-count">0</span>)</label>
+        <div id="attachments-list" class="attachments-list">
+          <p class="empty-hint">Aucune pièce jointe dans cet email.</p>
+        </div>
+      </div>
+
+      <!-- User Note / Grounding -->
+      <div class="option-group">
+        <label for="user-note-input" class="group-title">Note / Intention personnalisée (optionnel)</label>
+        <textarea id="user-note-input" rows="2" placeholder="Ajouter un contexte ou une note d'archivage..."></textarea>
+      </div>
+    </section>
+
+    <!-- Action Section -->
+    <footer class="app-footer">
+      <div id="status-message" class="status-message hidden"></div>
+      <button id="clip-btn" class="btn-primary">
+        <span>Clipper vers Google Drive</span>
+      </button>
+    </footer>
+  </div>
+
+  <script src="../shared/utils.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

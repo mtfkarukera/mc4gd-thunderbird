@@ -1,0 +1,18 @@
+# Dépendances & Artefacts de Build
+dist/
+web-ext-artifacts/
+node_modules/
+
+# Gouvernance Privée & Clés (Sécurité Anti-Leak)
+AGENTS.md
+.agents/
+*.pem
+*.key
+.env
+.env.*
+
+# Fichiers Système & IDE
+.DS_Store
+.vscode/
+.idea/
+*.log

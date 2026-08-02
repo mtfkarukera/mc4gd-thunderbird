@@ -1,0 +1,14 @@
+{
+  "extensionName": {
+    "message": "Magic Clipper for Google Drive",
+    "description": "Nom de l'extension"
+  },
+  "extensionDescription": {
+    "message": "Clipper emails et pièces jointes directement vers Google Drive en 1 clic.",
+    "description": "Description de l'extension"
+  },
+  "actionTitle": {
+    "message": "Clipper vers Google Drive",
+    "description": "Titre du bouton d'action"
+  }
+}
