@@ -44,14 +44,11 @@ mc4gd-tb/
 ├── lib/                       # Bibliothèques isolées (jsPDF, Turndown, plugin GFM)
 └── src/
     ├── background/
-    │   └── background.js      # Event Page MV3 central (Drive client & Mail controller)
+    │   └── background.js      # Event Page MV3 central (Drive client, Mail controller, jsPDF & Markdown)
     ├── popup/
     │   ├── popup.html         # Contrôleur visuel
     │   ├── popup.css          # Styles glassmorphism
     │   └── popup.js           # Machine à états Popup UI
-    ├── content/
-    │   ├── pdf_generator.js   # Moteur de génération PDF client
-    │   └── md_generator.js    # Moteur de conversion Markdown
     └── shared/
         ├── drive_client.js    # Client Google Drive API v3 (Resumable Upload & Folder)
         └── utils.js           # Utilitaires i18n & formatage de données

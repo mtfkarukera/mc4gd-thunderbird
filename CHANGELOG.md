@@ -7,6 +7,13 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
+## [1.0.3] - 2026-08-28
+
+### Améliorations & Nettoyage
+- **Consolidation du Moteur PDF Binaire** : Clarification et fiabilisation de la génération PDF native via `jsPDF` dans l'Event Page background, garantissant l'export de documents vectoriels multi-pages conformes.
+- **Nettoyage du Code Source** : Suppression définitive des anciens stubs obsolètes (`src/content/`) pour éliminer toute trace des anciens modèles textuels déguisés.
+- **Synchronisation du Package de Distribution** : Recompilation propre du livrable `.xpi` intégrant l'ensemble des modules validés.
+
 ## [1.0.2] - 2026-08-03
 
 ### Corrections & Améliorations Post-Audit
