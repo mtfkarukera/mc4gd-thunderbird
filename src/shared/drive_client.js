@@ -3,7 +3,7 @@
 
 'use strict';
 
-const GOOGLE_DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive';
+const GOOGLE_DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive.file';
 const CLIENT_ID = '270035285728-p7ssnc4jqitu5d12j5kuouinirf7vfnf.apps.googleusercontent.com'; // Public Web App Client ID
 const CHUNK_SIZE = 8 * 1024 * 1024; // 8 Mo = 32 × 256 KiB
 const MAX_RETRIES = 5;

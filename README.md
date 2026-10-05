@@ -20,7 +20,8 @@
 
 - **100% Local & Direct** : Le transfert s'effectue directement entre votre client Thunderbird et les serveurs sécurisés de Google Drive via l'API officielle v3.
 - **Zéro serveur intermédiaire** : Aucune donnée, aucun email ni aucun jeton ne transite par un serveur tiers.
-- **Transparence des données** : L'extension utilise l'autorisation OAuth2 officielle Google pour garantir le contrôle total de vos accès.
+- **Transparence des données** : L'extension utilise l'autorisation OAuth2 officielle Google (`drive.file`) pour garantir le contrôle total de vos accès.
+- **Politique de Confidentialité** : Consultez notre politique officielle en ligne sur [mtfk.fr/politique-confidentialite-magic-clipper](https://mtfk.fr/politique-confidentialite-magic-clipper/).
 
 ---
 

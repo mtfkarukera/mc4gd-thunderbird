@@ -7,6 +7,15 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
+## [1.0.4] - 2026-10-05
+
+### Sécurité & Conformité OAuth2
+- **Transition vers le Scope Non Sensible Google Drive** : Remplacement de l'ancien scope restreint `https://www.googleapis.com/auth/drive` par le scope officiel non sensible `https://www.googleapis.com/auth/drive.file`.
+- **Éradication de l'Avertissement Google** : Suppression complète du message d'application non validée lors du flux de consentement Google OAuth.
+- **Mise à Jour du Support & Privacy** : Intégration de l'adresse de support `mtfkarukera@googlegroups.com` et référencement de la politique de confidentialité officielle sur `https://mtfk.fr/politique-confidentialite-magic-clipper/`.
+
+---
+
 ## [1.0.3] - 2026-08-28
 
 ### Améliorations & Nettoyage
