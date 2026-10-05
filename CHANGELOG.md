@@ -5,6 +5,12 @@ Toutes les modifications notables apportées à ce projet seront documentées da
 Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/),
 et ce projet adhère au [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.5] - 2026-10-06
+
+### Résilience & Persistance de Session
+- **Renouvellement Silencieux Automatique** : Élimination de la déconnexion arbitraire après 58 minutes. Le background tente automatiquement un renouvellement silencieux (`interactive: false`) via les cookies de session Gecko sans interrompre l'utilisateur.
+- **Délégation d'Authentification Fluide** : Le bouton de clipping délègue directement la résolution OAuth au background, permettant une authentification ou un rafraîchissement transparent sans perte du contexte d'email.
+
 ---
 
 ## [1.0.4] - 2026-10-05

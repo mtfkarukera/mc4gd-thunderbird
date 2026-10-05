@@ -94,11 +94,32 @@ async function handleGetCurrentEmailInfo() {
 
 /**
  * Vérifie si un jeton d'accès Google Drive valide est présent en cache.
+ * Si le jeton est expiré mais qu'un jeton existait, tente un renouvellement silencieux
+ * via les cookies de session Gecko sans ouvrir de fenêtre popup.
  */
 async function handleCheckAuthStatus() {
   const { accessToken, expiresAt } = await browser.storage.local.get(['accessToken', 'expiresAt']);
-  const isValid = !!(accessToken && expiresAt && expiresAt > Date.now());
-  return { isAuthenticated: isValid };
+
+  // Cas 1 : Jeton déjà valide en cache
+  if (accessToken && expiresAt && expiresAt > Date.now()) {
+    return { isAuthenticated: true, status: 'valid' };
+  }
+
+  // Cas 2 : Un jeton existait mais est expiré -> tentative de renouvellement silencieux non bloquante
+  if (accessToken) {
+    try {
+      const silentToken = await DriveClient.getAccessToken(false);
+      if (silentToken) {
+        return { isAuthenticated: true, status: 'refreshed' };
+      }
+    } catch (e) {
+      console.warn('[MC4GD-TB] Échec du rafraîchissement silencieux OAuth:', e);
+    }
+    return { isAuthenticated: false, status: 'expired' };
+  }
+
+  // Cas 3 : Aucun jeton n'a jamais été enregistré
+  return { isAuthenticated: false, status: 'unauthenticated' };
 }
 
 /**

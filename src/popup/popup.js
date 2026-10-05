@@ -55,11 +55,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   const driveFileLinks = document.getElementById('drive-file-links');
 
   clipBtn.addEventListener('click', async () => {
-    if (!isAuthenticated) {
-      showStatus('Veuillez vous connecter à Google Drive d\'abord.', 'error');
-      return;
-    }
-
     const clipFormatSelection = document.querySelector('input[name="clip-format"]:checked')?.value || 'none';
     const clipMail = clipFormatSelection !== 'none';
     const clipFormat = clipMail ? clipFormatSelection : 'pdf';
@@ -99,6 +94,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       showStatus(`Erreur : ${err.message}`, 'error');
     } finally {
       setLoadingState(false);
+      await updateAuthStatus();
     }
   });
 
